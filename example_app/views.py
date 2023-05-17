@@ -2,6 +2,7 @@ from django.shortcuts import render
 import psycopg2
 from django.conf import settings
 from django.http import HttpResponse
+import json
 
 conn = psycopg2.connect(
     database = settings.DATABASE_NAME,
@@ -17,7 +18,10 @@ def index(request):
     return render(request, 'index.html')
 
 def test(request):
-    curr.execute("SELECT * FROM TEST")
-    lst = curr.fetchall()
-    return HttpResponse(lst)
+    try:
+        curr.execute("DELETE FROM PESERTA_MENDAFTAR_EVENT WHERE nomor_peserta = 63")
+    except Exception as e:
+        print(e)
+        curr.execute("ROLLBACK")
     
+    return HttpResponse()
