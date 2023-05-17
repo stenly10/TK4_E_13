@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% load static %}
+    <title>Register Pelatih</title>
+{% endblock meta %}
+{% block content %}
+    <style>
+        html, body {
+            height: 100%;
+        }
+        .h-100 .h-custom {
+            width: 100%;
+            height: 100%;
+            display: table;
+            text-align: center;
+        }
+    </style>
+    <section class="h-100 h-custom" style="background-color: #8fc4b7; height: 100vh;">
+        <div class="container py-5 h-100" style="height: 100vh;">
+            <div class="row d-flex justify-content-center align-items-center h-100" style="height: 100vh;">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="card rounded-3">
+                        <img src="https://lh3.googleusercontent.com/upSMtCcURxcLw0ZS8g92NbFH-znB32z9Wo9mS3xtBEawGjLnrT83fS7KjLqYkLWCkcIHXS3MiP7JwgDqKxW5zt-nxYhJddIp3HMKJo5w3w"
+                        class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+                        alt="Sample photo">
+                        <div class="card-body p-4 p-md-5">
+                            <center>
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Babadu | Register Pelatih</h3>
+                            </center>
+                            <form class="px-md-2" method="POST">
+                                {% csrf_token %}
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="nama" class="form-control" placeholder="Nama"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="email" class="form-control" placeholder="Email"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="negara" class="form-control" placeholder="Negara"/>
+                                </div>
+                                <p style="font-size: 15;"><b>Kategori</b></p>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="tunggal_putra" type="checkbox" value="1" id="tunggal_putra">
+                                    <label class="form-check-label" for="tunggal_putra">
+                                      Tunggal Putra
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="tunggal_putri" type="checkbox" value="1" id="tunggal_putri">
+                                    <label class="form-check-label" for="tunggal_putri">
+                                      Tunggal Putri
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="ganda_putra" type="checkbox" value="1" id="ganda_putra">
+                                    <label class="form-check-label" for="ganda_putra">
+                                      Ganda Putra
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="ganda_putri" type="checkbox" value="1" id="ganda_putri">
+                                    <label class="form-check-label" for="ganda_putri">
+                                      Ganda Putri
+                                    </label>
+                                </div>
+                                <div class="form-check pb-4">
+                                    <input class="form-check-input" name="ganda_campuran" type="checkbox" value="1" id="ganda_campuran">
+                                    <label class="form-check-label" for="ganda_campuran">
+                                      Ganda Campuran
+                                    </label>
+                                </div>
+                                <div class="pb-2">
+                                    <label for="tgl_mulai"><b> Tanggal Mulai </b></label>
+                                    <input type="date" id="tanggal_mulai" name="tgl_mulai">
+                                </div>
+                                <center>
+                                    <button type="submit" class="btn btn-success btn-lg mb-1">Register</button>
+                                </center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
