@@ -5,6 +5,7 @@ import psycopg2
 import psycopg2.extras
 import json
 from datetime import date
+from fitur_putih.auth import login_required
 
 conn = psycopg2.connect(
     database = settings.DATABASE_NAME,
@@ -18,14 +19,27 @@ curr = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 # Create your views here.
 
+@login_required
 def read_enrolled_event(request):
-    query = ("SELECT * "
-            + "FROM PESERTA_MENDAFTAR_EVENT AS PME, EVENT AS E "
-            + "WHERE PME.nama_event=E.nama_event " 
-            + "AND PME.tahun=E.tahun")
+    id_atlet_ganda = f"SELECT id_atlet_ganda FROM PESERTA_KOMPETISI AS PK WHERE PK.id_atlet_kualifikasi = \'{request.COOKIES['id']}\'"
+    curr.execute(id_atlet_ganda)
+    lst = curr.fetchall()
+    extra_condition = f"OR PK.id_atlet_ganda = \'{id_atlet_ganda}\')"
+    if(len(lst) == 0):
+        extra_condition = ")"
+    query = ("SELECT E.nama_event, E.tahun, E.nama_stadium, PAR.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai "
+            + "FROM PARTAI_PESERTA_KOMPETISI AS PAR, EVENT AS E, PESERTA_KOMPETISI AS PK "
+            + "WHERE PAR.nama_event=E.nama_event " 
+            + "AND PAR.tahun_event=E.tahun "
+            + "AND PAR.nomor_peserta = PK.nomor_peserta "
+            + "AND (PK.id_atlet_kualifikasi = " + f"\'{request.COOKIES['id']}\' "
+            + extra_condition)
     curr.execute(query)
     lst = curr.fetchall()
     json_format(lst)
+    context = {
+        "data":lst
+    }
     return HttpResponse(json.dumps(lst), content_type = "application/json")
 
 def json_format(lst):
