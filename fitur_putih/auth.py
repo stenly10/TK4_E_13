@@ -4,6 +4,7 @@ import psycopg2
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib import messages
 
 conn = psycopg2.connect(
     database = settings.DATABASE_NAME,
@@ -36,14 +37,23 @@ def authenticateWithId(id):
         return None
     return dict(lst[0])
 
-def login_required(func):
-    def inner1(*args, **kwargs):
-        id = args[0].COOKIES.get('id', None)
-        if(id == None or authenticateWithId(id) == None):
-            return HttpResponseRedirect(reverse("fitur_putih:login"))
-        return func(*args, **kwargs)
-
-    return inner1
+def login_required(role):
+    def inner(func):
+        def inner1(*args, **kwargs):
+            id = args[0].COOKIES.get('id', None)
+            user = authenticateWithId(id)
+            if id == None or user == None:
+                messages.error(args[0],"Silahkan login terlebih dahulu")
+                return HttpResponseRedirect(reverse("fitur_putih:login"))
+            query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
+            curr.execute(query)
+            lst = curr.fetchall()
+            if len(lst) == 0:
+                messages.error(args[0], "Silahkan login terlebih dahulu")
+                return HttpResponseRedirect(reverse("fitur_putih:login"))
+            return func(*args, **kwargs)
+        return inner1
+    return inner
 
 def logout():
     response = HttpResponseRedirect(reverse('fitur_putih:login'))

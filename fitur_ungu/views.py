@@ -19,30 +19,24 @@ curr = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 # Create your views here.
 
-@login_required
+@login_required(role="ATLET")
 def read_enrolled_event(request):
-    id_atlet_ganda = f"SELECT id_atlet_ganda FROM PESERTA_KOMPETISI AS PK WHERE PK.id_atlet_kualifikasi = \'{request.COOKIES['id']}\'"
-    curr.execute(id_atlet_ganda)
-    lst = curr.fetchall()
-    extra_condition = f"OR PK.id_atlet_ganda = \'{id_atlet_ganda}\')"
-    if(len(lst) == 0):
-        extra_condition = ")"
+    
     query = ("SELECT E.nama_event, E.tahun, E.nama_stadium, PAR.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai "
             + "FROM PARTAI_PESERTA_KOMPETISI AS PAR, EVENT AS E, PESERTA_KOMPETISI AS PK "
             + "WHERE PAR.nama_event=E.nama_event " 
             + "AND PAR.tahun_event=E.tahun "
             + "AND PAR.nomor_peserta = PK.nomor_peserta "
-            + "AND (PK.id_atlet_kualifikasi = " + f"\'{request.COOKIES['id']}\' "
-            + extra_condition)
+            + "AND (PK.id_atlet_kualifikasi = " + f"\'{request.COOKIES['id']}\')")
     curr.execute(query)
     lst = curr.fetchall()
-    json_format(lst)
+    change_format(lst)
     context = {
         "data":lst
     }
     return HttpResponse(json.dumps(lst), content_type = "application/json")
 
-def json_format(lst):
+def change_format(lst):
     for i in range(len(lst)):
         lst[i] = dict(lst[i])
         change_date_format(lst[i])

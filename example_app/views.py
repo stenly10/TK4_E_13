@@ -18,7 +18,7 @@ curr = conn.cursor()
 def index(request):
     return render(request, 'index.html')
 
-@login_required
+@login_required(role="ATLET")
 def test(request):
     try:
         curr.execute("DELETE FROM PESERTA_MENDAFTAR_EVENT WHERE nomor_peserta = 63")
