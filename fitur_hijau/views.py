@@ -37,7 +37,7 @@ def ujian_kualifikasi_atlet(request):
     query = f'SELECT * FROM UJIAN_KUALIFIKASI'
     curr.execute(query)
     lst = curr.fetchall()
-    test = []
+    list_data = []
     for x in lst:
         context = {}
         context["tahun"] = x[0]
@@ -45,7 +45,24 @@ def ujian_kualifikasi_atlet(request):
         context["tempat"] = x[2]
         context["tanggal"] = x[3]
         print(context)
-        test.append(context)
-    print(test)
+        list_data.append(context)
 
-    return render(request, 'ujian_kualifikasi_atlet.html', {'data' : test})
+    return render(request, 'ujian_kualifikasi_atlet.html', {'data' : list_data})
+
+def riwayat_kualifikasi(request):
+    sp = '34847a13-05b0-42fa-a5e8-293203691bcf'
+    query = f'SELECT * FROM ATLET_NONKUALIFIKASI_UJIAN_KUALIFIKASI WHERE id_atlet = \'{sp}\''
+    curr.execute(query)
+    lst = curr.fetchall()
+    list_data = []
+    for x in lst:
+        context = {}
+        context["tahun"] = x[1]
+        context["batch"] = x[2]
+        context["tempat"] = x[3]
+        context["tanggal"] = x[4]
+        context["hasil"] = x[5]
+        print(context)
+        list_data.append(context)
+
+    return render(request, 'riwayat_kualifikasi.html', {'data' : list_data})
