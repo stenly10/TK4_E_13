@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% load static %}
+    <title>Enrolled Event</title>
+{% endblock meta %}
+{% block content %}
+  
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+      <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Tes Kualifikasi</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Event</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Enrolled Event</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Sponsor</a>
+          </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+      </form>
+      </div>
+  </nav>
+  <br>
+    <h1 style="text-align: center;">Enrolled Event</h1>
+    <div class="flex" style=" margin:0 auto; justify-content: center; display:flex;">
+      <div class="row">
+        {% for event in events %}
+        <div class="col-auto">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{event.nama_event}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{event.tahun}}</h6>
+              <p>Nama Stadium: {{event.nama_stadium}}</p>
+              <p>Total Hadiah: {{event.total_hadiah}}</p>
+              <p>Kategori Superseries: {{event.kategori_superseries}}</p>
+              <p>Tanggal Mulai: {{event.tgl_mulai}}</p>
+              <p>Tanggal Selesai: {{event.tgl_selesai}}</p>
+              <form method="POST">
+                {% csrf_token %}
+                <input id="" type="hidden" name="nama_event" value="{{event.nama_event}}">
+                <input id="tahun" type="hidden" name="tahun" value="{{event.tahun}}">
+                <button id = 'button'type="submit" class="btn btn-danger">Unenroll</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% if messages %}
+      {% for message in messages %}
+          <script>
+            message = "{{message}}"
+            $(document).ready(function(){
+              window.alert(message);
+            })
+          </script>
+      {% endfor %}
+    {% endif %}
+{% endblock content %}
+
