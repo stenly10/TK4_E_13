@@ -41,8 +41,11 @@ def login_required(role):
     def inner(func):
         def inner1(*args, **kwargs):
             id = args[0].COOKIES.get('id', None)
+            if id == None:
+                messages.error(args[0],"Silahkan login terlebih dahulu")
+                return HttpResponseRedirect(reverse("fitur_putih:login"))
             user = authenticateWithId(id)
-            if id == None or user == None:
+            if user == None:
                 messages.error(args[0],"Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
             query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
