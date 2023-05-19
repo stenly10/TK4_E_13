@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% load static %}
+    <title>Daftar Sponsor</title>
+{% endblock meta %}
+{% block content %}
+        <!-- navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+            <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Tes Kualifikasi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Enrolled Event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Sponsor</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+            </div>
+        </nav>
+
+        <form method="POST">
+            {% csrf_token %}
+            <h2 class="pt-3 pb-4" style="text-align: center;"> Daftar Sponsor </h2>
+            <h5 class="pt-3 pb-2" style="text-align: center;"> Pilih Sponsor </h2>
+            <div class = "row justify-content-center pb-4">
+                <select class="form-select" aria-label="Nama Sponsor" name="id_sponsor">
+                    {% for sponsor in sponsors %}
+                    <option value="{{sponsor.id}}">{{sponsor.nama_brand}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <h5 class="pt-3 pb-2" style="text-align: center;"> Tangal Mulai </h5>
+            <div class="row justify-content-center pb-4">
+                <input type="date" id="tgl_mulai" name="tgl_mulai">
+            </div>
+            <h5 class="pt-3 pb-2" style="text-align: center;"> Tangal Selesai </h5>
+            <div class="row justify-content-center pb-4">
+                <input type="date" id="tgl_selesai" name="tgl_selesai">
+            </div>
+            <center>
+                <button type="submit" class="btn btn-success btn-lg mb-1">Submit</button>
+            </center>
+        </form>
+        {% if messages %}
+        {% for message in messages %}
+            <script>
+              message = "{{message}}"
+              $(document).ready(function(){
+                window.alert(message);
+              })
+            </script>
+        {% endfor %}
+      {% endif %}
+{% endblock content %}

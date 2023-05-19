@@ -44,16 +44,16 @@ def login_required(role):
             if id == None:
                 messages.error(args[0],"Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
+            
             user = authenticateWithId(id)
             if user == None:
                 messages.error(args[0],"Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
-            query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
-            curr.execute(query)
-            lst = curr.fetchall()
-            if len(lst) == 0:
+            
+            if not check_role(args[0], role, id):
                 messages.error(args[0], "Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
+            
             return func(*args, **kwargs)
         return inner1
     return inner
@@ -62,6 +62,20 @@ def logout():
     response = HttpResponseRedirect(reverse('fitur_putih:login'))
     response.set_cookie('id', 'id', expires='Thu, 01-Jan-1970 00:00:00 GMT')
     return response
-    
+
+def get_role(request):
+    id = request.COOKIES['id']
+    if check_role(request, "ATLET", id):
+        return "ATLET"
+    elif check_role(request, "PELATIH", id):
+        return "PELATIH"
+    elif check_role(request, "UMPIRE", id):
+        return "UMPIRE"
+
+def check_role(request, role, id):
+    query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
+    curr.execute(query)
+    lst = curr.fetchall()
+    return len(lst) != 0
     
     
