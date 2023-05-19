@@ -50,9 +50,9 @@ def unenroll_event(request):
     curr.execute(query)
     lst = curr.fetchall()
     no_peserta = dict(lst[0])['nomor_peserta']
-    query = f"DELETE FROM PESERTA_MENDAFTAR_EVENT AS PME WHERE PME.nomor_peserta = {no_peserta} AND PME.tahun = {tahun} AND PME.nama_event = \'{nama_event}\'"
+    dml = f"DELETE FROM PESERTA_MENDAFTAR_EVENT AS PME WHERE PME.nomor_peserta = {no_peserta} AND PME.tahun = {tahun} AND PME.nama_event = \'{nama_event}\'"
     try:
-        curr.execute(query)
+        curr.execute(dml)
         conn.commit()
         messages.success(request, f"Berhasil unenroll event {nama_event} tahun {tahun}")
     except Exception as e:
@@ -74,3 +74,51 @@ def change_date_format(param):
     for key in param:
         if(isinstance(param[key], date)):
             param[key] = param[key].strftime('%d-%m-%Y')
+
+
+
+@login_required(role="ATLET")
+def daftar_sponsor(request):
+    id_user = request.COOKIES['id']
+    if request.method == "POST":
+        daftar_sponsor_post(request, id_user)
+    query = ("SELECT S.id, S.nama_brand FROM SPONSOR S WHERE NOT EXISTS "
+             + f"(SELECT * FROM ATLET_SPONSOR AS ASP WHERE S.id = ASP.id_sponsor AND ASP.id_atlet = \'{id_user}\')")
+    curr.execute(query)
+    lst = curr.fetchall()
+    change_format(lst)
+    context = {
+        'sponsors':lst
+    }
+    return render(request, 'daftar_sponsor.html', context)
+
+def daftar_sponsor_post(request, id_user):
+    id_sponsor = request.POST['id_sponsor']
+    tgl_mulai = request.POST.get('tgl_mulai', None)
+    tgl_selesai = request.POST.get('tgl_selesai', None)
+    if not tgl_mulai or not tgl_selesai:
+        messages.error(request, "Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu")
+        return
+    try:
+        dml = f"INSERT INTO ATLET_SPONSOR VALUES(\'{id_user}\', \'{id_sponsor}\', \'{tgl_mulai}\', \'{tgl_selesai}\')"
+        curr.execute(dml)
+        conn.commit()
+        messages.success(request, "Berhasil mendaftarkan sponsor baru")
+    except Exception as e:
+        conn.rollback()
+        messages.error(request, generate_error_message(e))
+    return 
+
+@login_required("ATLET")
+def list_sponsor(request):
+    id_user = request.COOKIES['id']
+    query = f"SELECT ASP.tgl_mulai, ASP.tgl_selesai, S.nama_brand FROM ATLET_SPONSOR AS ASP, SPONSOR AS S WHERE ASP.id_atlet = \'{id_user}\' AND ASP.id_sponsor = S.id"
+    curr.execute(query)
+    lst = curr.fetchall()
+    change_format(lst)
+    context = {
+        'list_atlet_sponsor':lst
+    }
+    return render(request, "list_sponsor.html", context)
+
+
