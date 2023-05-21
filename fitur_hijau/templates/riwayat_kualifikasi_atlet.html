@@ -60,7 +60,11 @@
             <td>{{ item.batch }}</td>
             <td>{{ item.tempat }}</td>
             <td>{{ item.tanggal }}</td>
-            <td>{{ item.hasil }}</td>
+            {% if item.hasil %}
+                <td>Lulus</td>
+            {% else %}
+                <td>Tidak Lulus</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

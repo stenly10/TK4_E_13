@@ -7,6 +7,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from fitur_putih.auth import *
 
 conn = psycopg2.connect(
     database = settings.DATABASE_NAME,
@@ -49,7 +50,7 @@ def ujian_kualifikasi_umpire_read(request):
 
     return render(request, 'ujian_kualifikasi_umpire_read.html', {'data' : list_data})
 
-# @login_required(role="ATLET")
+@login_required(role="ATLET")
 def ujian_kualifikasi_atlet(request):
     query = f'SELECT * FROM UJIAN_KUALIFIKASI'
     curr.execute(query)
@@ -68,8 +69,9 @@ def ujian_kualifikasi_atlet(request):
 
 
 def riwayat_kualifikasi_atlet(request):
-    sp = '34847a13-05b0-42fa-a5e8-293203691bcf'
+    sp = request.COOKIES['id']
     query = f'SELECT * FROM ATLET_NONKUALIFIKASI_UJIAN_KUALIFIKASI WHERE id_atlet = \'{sp}\''
+    print(sp)
     curr.execute(query)
     lst = curr.fetchall()
     list_data = []
