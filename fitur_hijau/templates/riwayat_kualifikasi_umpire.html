@@ -47,21 +47,22 @@
     <body>
     <table class="table table-bordered d-flex justify-content-center">
         <tr>
+            <th>Nama Atlet</th>
             <th>Tahun</th>
             <th>Nomor Batch</th>
-            <th>Tempat</th>
-            <th>Tanggal</th>
-            <th>Action</th>
+            <th>Tempat Pelaksanaan</th>
+            <th>Tanggal Pelaksanaan</th>
+            <th>Hasil</th>
         </tr>
 
         {% for item in data %}
         <tr>
+            <td>{{ item.id }} </td>
             <td>{{ item.tahun }}</td>
             <td>{{ item.batch }}</td>
             <td>{{ item.tempat }}</td>
             <td>{{ item.tanggal }}</td>
-            <td><a class="btn btn-primary" href="{% url 'fitur_hijau:ujian_kualifikasi_question' %}" role="button">Ikuti</a></td>
-
+            <td>{{ item.hasil }}</td>
         </tr>
         {% endfor %}
     </table>

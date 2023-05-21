@@ -51,7 +51,6 @@
             <th>Nomor Batch</th>
             <th>Tempat</th>
             <th>Tanggal</th>
-            <th>Action</th>
         </tr>
 
         {% for item in data %}
@@ -60,7 +59,6 @@
             <td>{{ item.batch }}</td>
             <td>{{ item.tempat }}</td>
             <td>{{ item.tanggal }}</td>
-            <td><a class="btn btn-primary" href="{% url 'fitur_hijau:ujian_kualifikasi_question' %}" role="button">Ikuti</a></td>
 
         </tr>
         {% endfor %}
