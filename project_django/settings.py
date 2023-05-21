@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'example_app',
     'fitur_hijau'
+    'fitur_ungu',
+    'fitur_putih',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,7 @@ DATABASE_NAME = os.getenv('DATABASE_NAME')
 DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
 DATABASE_PORT = os.getenv('DATABASE_PORT')
 DATABASE_USER = os.getenv('DATABASE_USER')
+
+AUTHENTICATION_BACKENDS = [
+    "fitur_putih.auth.AuthBackend"
+]

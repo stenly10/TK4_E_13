@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% load static %}
+    <title>Register Atlet</title>
+{% endblock meta %}
+{% block content %}
+    <style>
+        html, body {
+            height: 100%;
+        }
+        .h-100 .h-custom {
+            width: 100%;
+            height: 100%;
+            display: table;
+            text-align: center;
+        }
+    </style>
+    <section class="h-100 h-custom" style="background-color: #8fc4b7; height: 100vh;">
+        <div class="container py-5 h-100" style="height: 100vh;">
+            <div class="row d-flex justify-content-center align-items-center h-100" style="height: 100vh;">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="card rounded-3">
+                        <img src="https://lh3.googleusercontent.com/upSMtCcURxcLw0ZS8g92NbFH-znB32z9Wo9mS3xtBEawGjLnrT83fS7KjLqYkLWCkcIHXS3MiP7JwgDqKxW5zt-nxYhJddIp3HMKJo5w3w"
+                        class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+                        alt="Sample photo">
+                        <div class="card-body p-4 p-md-5">
+                            <center>
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Babadu | Register Atlet</h3>
+                            </center>
+                            <form class="px-md-2" method="POST">
+                                {% csrf_token %}
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="nama" class="form-control" placeholder="Nama"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="email" class="form-control" placeholder="Email"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="negara" class="form-control" placeholder="Negara"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="tgl_lahir" class="form-control" placeholder="Tanggal Lahir (cth: 13-09-2002)"/>
+                                </div>
+                                <p>Play</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kanan" id="kanan" checked>
+                                    <label class="form-check-label" for="kanan">
+                                      Tangan Kanan
+                                    </label>
+                                </div>
+                                <div class="form-check pb-4">
+                                    <input class="form-check-input" type="radio" name="kiri" id="kiri">
+                                    <label class="form-check-label" for="kiri">
+                                      Tangan Kiri
+                                    </label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="tinggi_badan" class="form-control" placeholder="Tinggi Badan"/>
+                                </div>
+                                <p>Jenis Kelamin</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="laki_laki" id="laki-laki" checked>
+                                    <label class="form-check-label" for="laki-laki">
+                                      Laki-laki
+                                    </label>
+                                </div>
+                                <div class="form-check pb-2">
+                                    <input class="form-check-input" type="radio" name="perempuan" id="perempuan">
+                                    <label class="form-check-label" for="perempuan">
+                                      Wanita
+                                    </label>
+                                </div>
+                                
+                                <center>
+                                    <button type="submit" class="btn btn-success btn-lg mb-1">Daftar</button>
+                                </center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
