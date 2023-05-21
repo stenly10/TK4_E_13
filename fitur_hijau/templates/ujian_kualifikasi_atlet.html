@@ -60,11 +60,21 @@
             <td>{{ item.batch }}</td>
             <td>{{ item.tempat }}</td>
             <td>{{ item.tanggal }}</td>
-            <td><a class="btn btn-primary" href="{% url 'fitur_hijau:ujian_kualifikasi_question' %}" role="button">Ikuti</a></td>
-
+            <form method="POST">                             
+                {% csrf_token %}                             
+                <td><button class="btn text-primary" type="submit" name="pilihan" id="pilihan" value="{{item}}">Ikuti</a></td>                    
+            </form>
         </tr>
         {% endfor %}
     </table>
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
     </body>
     
     {% endblock content %}
