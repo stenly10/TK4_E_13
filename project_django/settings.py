@@ -151,7 +151,3 @@ DATABASE_NAME = os.getenv('DATABASE_NAME')
 DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
 DATABASE_PORT = os.getenv('DATABASE_PORT')
 DATABASE_USER = os.getenv('DATABASE_USER')
-
-AUTHENTICATION_BACKENDS = [
-    "fitur_putih.auth.AuthBackend"
-]
