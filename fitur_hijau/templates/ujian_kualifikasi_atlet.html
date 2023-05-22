@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% load static %}
+{% endblock meta %}
+{% block content %}
+
+<style>
+    body{
+    background: rgb(58,169,180);
+    background: linear-gradient(90deg, rgba(58,169,180,1) 0%, rgba(54,153,123,1) 33%, rgba(66,186,102,1) 66%);
+    overflow-x: hidden;
+    
+}
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+    <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Tes Kualifikasi</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Event</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Enrolled Event</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Sponsor</a>
+        </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+    </form>
+    </div>
+</nav>
+    
+    <body>
+    <table class="table table-bordered d-flex justify-content-center">
+        <tr>
+            <th>Tahun</th>
+            <th>Nomor Batch</th>
+            <th>Tempat</th>
+            <th>Tanggal</th>
+            <th>Action</th>
+        </tr>
+
+        {% for item in data %}
+        <tr>
+            <td>{{ item.tahun }}</td>
+            <td>{{ item.batch }}</td>
+            <td>{{ item.tempat }}</td>
+            <td>{{ item.tanggal }}</td>
+            <form method="POST">                             
+                {% csrf_token %}                             
+                <td><button class="btn text-primary" type="submit" name="pilihan" id="pilihan" value="{{item}}">Ikuti</a></td>                    
+            </form>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
+    </body>
+    
+    {% endblock content %}
+    
+
+
+

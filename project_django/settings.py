@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'example_app',
+    'fitur_hijau',
+    'fitur_ungu',
+    'fitur_putih',
 ]
 
 MIDDLEWARE = [
