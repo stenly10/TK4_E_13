@@ -60,7 +60,16 @@ def ujian_kualifikasi_question(request):
             print(query)
             curr.execute(query)
             conn.commit()
+            return redirect('fitur_hijau:riwayat_kualifikasi_atlet')
     return render(request, 'ujian_kualifikasi_question.html')
+
+def atlet_kualifikasi_question(request):
+    
+    if request.method =="POST":
+        return redirect('fitur_hijau:riwayat_kualifikasi_atlet')
+    
+    return render(request, 'atlet_kualifikasi_question.html')
+
 
 # @login_required("UMPIRE")
 def ujian_kualifikasi_umpire_create(request):
@@ -73,6 +82,7 @@ def ujian_kualifikasi_umpire_create(request):
         query = f'INSERT INTO UJIAN_KUALIFIKASI VALUES(\'{tahun}\', \'{nomor_batch}\', \'{tempat}\', \'{tanggal}\')'
         curr.execute(query)
         conn.commit()
+        return redirect('fitur_hijau:ujian_kualifikasi_umpire_read')
     
     return render(request, 'ujian_kualifikasi_umpire_create.html')
 
@@ -125,9 +135,16 @@ def ujian_kualifikasi_atlet(request):
             response.set_cookie('dict_info', value)
             return response
         except Exception as e:
-             messages.error(request, generate_error_message(e))
-             conn.rollback()
-
+            error_msg = generate_error_message(e)
+            print(error_msg)
+                
+            if error_msg == 'Ujian Kualifikasi sudah pernah diikuti':
+                messages.error(request, generate_error_message(e))
+                conn.rollback()
+            elif error_msg == 'atlet_kualifikasi_ujian':
+                conn.rollback()
+                return redirect('fitur_hijau:atlet_kualifikasi_question')
+                
 
     return render(request, 'ujian_kualifikasi_atlet.html', {'data' : list_data})
 

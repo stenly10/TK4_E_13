@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% load static %}
+{% endblock meta %}
+{% block content %}
+
+    <style>
+        body{
+      /* Created with https://www.css-gradient.com */
+        background: rgb(58,169,180);
+        background: linear-gradient(90deg, rgba(58,169,180,1) 0%, rgba(54,153,123,1) 33%, rgba(66,186,102,1) 66%);
+        overflow-x: hidden;
+        }
+        label{
+            padding-left: 10px;
+        }
+        a{
+            padding-left: 40px;
+        }
+    </style>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+        <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #FFFFFF;">Tes Kualifikasi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Event</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #FFFFFF;">Enrolled Event</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Sponsor</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+        </div>
+    </nav>
+    
+  <body>
+    
+    <div style="background-color: lightgreen; width: 500px; margin: auto; margin-top: 30px; padding-top: 20px; padding-bottom: 20px; ">
+        <form method="POST">
+            {% csrf_token %}
+            <h1 style="padding-left: 50px;"> Pertanyaan Kualifikasi </h1>
+            
+            <a>1. Pemenang ditentukan jika terlebih dahulu sampai ... poin?</a>
+            <div style="padding-left: 60px; padding-bottom: 8px;">
+            <input type="radio" name="q1" value="18" id="q1"  required="required">
+            <label for="q1-18">18</label><br>
+            <input type="radio" name="q1" value="21" id="q1"  required="required">
+            <label for="q1-21">21</label><br>
+            <input type="radio" name="q1" value="25" id="q1"  required="required">
+            <label for="q1-25">25</label><br>
+            </div>
+            
+            <a>2. Jika shuttlecock jatuh tepat di garis, maka dihitung ...</a>
+            <div style="padding-left: 60px; padding-bottom: 8px;">
+            <input type="radio" name="q2" value="poin" id="q2-poin"  required="required">
+            <label for="q2-poin">Poin</label><br>
+            <input type="radio" name="q2" value="out" id="q2-out"  required="required">
+            <label for="q2-out">Out</label><br>
+            <input type="radio" name="q2" value="umpire" id="q2-umpire"  required="required">
+            <label for="q2-umpire">Tergantung keputusan umpire</label><br>
+            </div>
+
+      
+            <a>3. Saat rally dimenangkan, berapa poin yang didapatkan?</a>
+            <div style="padding-left: 60px; padding-bottom: 8px;">
+            <input type="radio" name="q3" value="1" id="q3"  required="required">
+            <label for="q3-1">1</label><br>
+            <input type="radio" name="q3" value="2" id="q3"  required="required">
+            <label for="q3-2">2</label><br>
+            <input type="radio" name="q3" value="3" id="q3"  required="required">
+            <label for="q3-3">0</label><br>
+            </div>
+
+            <a>4. Apa turnamen badminton tertua di dunia?</a>
+            <div style="padding-left: 60px; padding-bottom: 8px;">
+            <input type="radio" name="q4" value="sudirman" id="q4"  required="required">
+            <label for="q4-sudirman">Sudirman Cup</label><br>
+            <input type="radio" name="q4" value="china" id="q4"  required="required">
+            <label for="q4-china">China Open</label><br>
+            <input type="radio" name="q4" value="england" id="q4"  required="required">
+            <label for="q4-england">All England Open</label><br>
+            </div>
+            
+            <a>5. Pada bagian lapangan mana serve pertama dilakukan?</a>
+            <div style="padding-left: 60px; padding-bottom: 8px;">
+            <input type="radio" name="q5" value="kanan" id="q5"  required="required">
+            <label for="q5-kanan">Sisi kanan</label><br>
+            <input type="radio" name="q5" value="kiri" id="q5"  required="required">
+            <label for="q5-kiri">Sisi Kiri </label><br>
+            <input type="radio" name="q5" value="tengah" id="q5"  required="required">
+            <label for="q5-tengah">Tengah</label><br>
+            </div>
+
+            <div class="col-md-12 text-center">
+            <input class="btn btn-primary" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+    
+  </body>
+
+{% endblock content %}
