@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'fitur_hijau',
     'fitur_ungu',
     'fitur_putih',
+    'fitur_pink',
 ]
 
 MIDDLEWARE = [
