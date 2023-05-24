@@ -10,5 +10,6 @@ urlpatterns = [
     path('ujiankualifikasi/atlet', ujian_kualifikasi_atlet, name='ujian_kualifikasi_atlet'),
     path('ujiankualifikasi/riwayat/atlet', riwayat_kualifikasi_atlet, name='riwayat_kualifikasi_atlet'),
     path('ujiankualifikasi/riwayat/umpire', riwayat_kualifikasi_umpire, name='riwayat_kualifikasi_umpire'),
+     path('ujiankualifikasi/question/kualifikasi', atlet_kualifikasi_question, name='atlet_kualifikasi_question'),
 
 ]

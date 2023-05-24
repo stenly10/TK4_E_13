@@ -89,14 +89,14 @@ def latih_atlet(request):
 
     # ini blm
 
-    # query = f"SELECT A.id, A.email, A.world_rank, M.email FROM ATLET AS A, MEMBER AS M, ATLET_PELATIH AS AP WHERE AP.id_pelatih = \'{id_pelatih}\' AND AP.id_atlet = A.id AND A.id = M.id"
+    query = f"SELECT A.id, A.email, A.world_rank, M.email FROM ATLET AS A, MEMBER AS M, ATLET_PELATIH AS AP WHERE AP.id_pelatih = \'{id_pelatih}\' AND AP.id_atlet = A.id AND A.id = M.id"
     
-    # curr.execute(query)
-    # lst = curr.fetchall()
-    # change_format(lst)
-    # context = {
-    #     'atlet':lst
-    # }
+    curr.execute(query)
+    lst = curr.fetchall()
+    change_format(lst)
+    context = {
+        'atlet':lst
+    }
 
     # return render(request, 'list_atlet.html', context)
 
