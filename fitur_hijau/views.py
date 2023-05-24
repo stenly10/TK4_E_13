@@ -25,7 +25,7 @@ curr = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 
 
-# @login_required("ATLET")
+@login_required("ATLET")
 def ujian_kualifikasi_question(request):
     if request.method =="POST":
         question_1  = request.POST.get('q1')
@@ -63,6 +63,7 @@ def ujian_kualifikasi_question(request):
             return redirect('fitur_hijau:riwayat_kualifikasi_atlet')
     return render(request, 'ujian_kualifikasi_question.html')
 
+@login_required("ATLET")
 def atlet_kualifikasi_question(request):
     
     if request.method =="POST":
@@ -71,7 +72,7 @@ def atlet_kualifikasi_question(request):
     return render(request, 'atlet_kualifikasi_question.html')
 
 
-# @login_required("UMPIRE")
+@login_required("UMPIRE")
 def ujian_kualifikasi_umpire_create(request):
     if request.method == "POST":
         tahun = request.POST.get('tahun')
@@ -86,6 +87,7 @@ def ujian_kualifikasi_umpire_create(request):
     
     return render(request, 'ujian_kualifikasi_umpire_create.html')
 
+@login_required("UMPIRE")
 def ujian_kualifikasi_umpire_read(request):
     query = f'SELECT * FROM UJIAN_KUALIFIKASI'
     curr.execute(query)
@@ -161,7 +163,7 @@ def check_ujian_kualifikasi(request):
 
     return render(request, 'ujian_kualifikasi_question.html')
 
-
+@login_required(role="ATLET")
 def riwayat_kualifikasi_atlet(request):
     id_atlet = request.COOKIES['id']
     query = f'SELECT * FROM ATLET_NONKUALIFIKASI_UJIAN_KUALIFIKASI WHERE id_atlet = \'{id_atlet}\''
@@ -181,7 +183,7 @@ def riwayat_kualifikasi_atlet(request):
 
     return render(request, 'riwayat_kualifikasi_atlet.html', {'data' : list_data})
 
-
+@login_required(role="UMPIRE")
 def riwayat_kualifikasi_umpire(request):
     query = f'SELECT * FROM ATLET_NONKUALIFIKASI_UJIAN_KUALIFIKASI'
     curr.execute(query)
