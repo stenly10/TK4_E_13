@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+{% load static %}
+    <title>Daftar Atlet</title>
+{% endblock meta %}
+{% block content %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+            <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Atlet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Lihat Event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #FFFFFF;">Hasil Pertandingan</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+            </div>
+        </nav>
+  <br>
+    <h1 style="text-align: center;">Daftar Atlet</h1>
+    <div class="flex" style=" margin:0 auto; justify-content: center; display:flex;">
+      <div class="row">
+        <br>
+        <br>
+        <h3 style="text-align: center;">Atlet Kualifikasi</h3>
+        <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Tanggal Lahir</th>
+                <th>Negara Asal</th>
+                <th>Play Right</th>
+                <th>Height</th>
+                <th>World Rank</th>
+                <th>World Tour Rank</th>
+                <th>Jenis Kelamin</th>
+                <th>Total Point</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for atlet in atlet_kualifikasi %}
+              <tr>
+                <td>{{ atlet.nama }}</td>
+                <td>{{ atlet.tgl_lahir }}</td>
+                <td>{{ atlet.negara_asal }}</td>
+                <td>{{ atlet.play_right }}</td>
+                <td>{{ atlet.height }}</td>
+                <td>{{ atlet.world_rank }}</td>
+                <td>{{ atlet.world_tour_rank }}</td>
+                <td>{{ atlet.jenis_kelamin }}</td>
+                <td>{{ atlet.total_point }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <br>
+          <br>
+          <br>
+          <h3 style="text-align: center;">Atlet Non Kualifikasi</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Tanggal Lahir</th>
+                <th>Negara Asal</th>
+                <th>Play Right</th>
+                <th>Height</th>
+                <th>World Rank</th>
+                <th>Jenis Kelamin</th>
+                <th>Total Point</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for atlet in atlet_non_kualifikasi %}
+              <tr>
+                <td>{{ atlet.nama }}</td>
+                <td>{{ atlet.tgl_lahir }}</td>
+                <td>{{ atlet.negara_asal }}</td>
+                <td>{{ atlet.play_right }}</td>
+                <td>{{ atlet.height }}</td>
+                <td>-</td>
+                <td>{{ atlet.jenis_kelamin }}</td>
+                <td>{{ atlet.total_point }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <br>
+          <br>
+          <br>
+          <h3 style="text-align: center;">Atlet Ganda</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>ID Atlet Ganda</th>
+                <th>Nama Atlet 1</th>
+                <th>nNama Atlet 2</th>
+                <th>Total Point</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for atlet in atlet_ganda %}
+              <tr>
+                <td>{{ atlet.id_atlet_ganda }}</td>
+                <td>{{ atlet.nama_atlet_kualifikasi }}</td>
+                <td>{{ atlet.nama_atlet_kualifikasi_2 }}</td>
+                <td>{{ atlet.total_point }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      </div>
+    </div>
+    
+    {% if messages %}
+      {% for message in messages %}
+          <script>
+            message = "{{message}}"
+            $(document).ready(function(){
+              window.alert(message);
+            })
+          </script>
+      {% endfor %}
+    {% endif %}
+{% endblock content %}
+
