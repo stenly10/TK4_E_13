@@ -80,25 +80,33 @@ def daftar_atlet(request):
     }
     return render(request, 'daftar_atlet.html', context)
 
-@login_required("PELATIH")
-def latih_atlet(request):
+@login_required("PELATIH") 
+def latih_atlet(request): # tinggal triggernya (checked)
     id_pelatih = request.COOKIES['id']
 
     if request.method == "POST":
         latih_atlet_post(request, id_pelatih)
 
-    # ini blm
+    # buat pilihan
+    query = """
+    SELECT M.nama 
 
-    query = f"SELECT A.id, A.email, A.world_rank, M.email FROM ATLET AS A, MEMBER AS M, ATLET_PELATIH AS AP WHERE AP.id_pelatih = \'{id_pelatih}\' AND AP.id_atlet = A.id AND A.id = M.id"
+    FROM
+    ATLET AS A,
+    MEMBER AS M
+
+    WHERE
+    A.id = M.id 
+    """
     
     curr.execute(query)
     lst = curr.fetchall()
     change_format(lst)
     context = {
-        'atlet':lst
+        'pilihan_atlet':lst
     }
 
-    # return render(request, 'list_atlet.html', context)
+    return render(request, 'latih_atlet.html', context)
 
 def latih_atlet_post(request, id_pelatih):
     id_atlet = request.POST.get('id_atlet')
@@ -124,10 +132,10 @@ def list_atlet(request):
     query = """
     SELECT A.id, M.email, A.world_rank
     FROM ATLET AS A, MEMBER AS M, ATLET_PELATIH AS AP
-    WHERE AP.id_pelatih = '73db521c-e781-4924-aa6b-3ae5ffcbe9b0'
+    WHERE AP.id_pelatih = '{id_pelatih}'
     AND AP.id_atlet = A.id
     AND A.id = M.id
-    """
+    """.format(id_pelatih = id_pelatih)
 
     curr.execute(query)
     lst = curr.fetchall()
@@ -138,19 +146,19 @@ def list_atlet(request):
     return render(request, 'list_atlet.html', context)
 
 @login_required("UMPIRE")
-def list_partai_kompetisi(request):
+def list_partai_kompetisi(request): #perlu cek lagi, ganti PME jadi peserta_partai_kompetisi (checked)
 
     query = """
     SELECT 
     E.nama_event,PK.tahun_event AS tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas,
-    COUNT(PME.nomor_peserta) AS jumlah_pendaftar,
-    COUNT(PME.nomor_peserta) = S.kapasitas AS is_full
+    COUNT(PPK.nomor_peserta) AS jumlah_pendaftar,
+    COUNT(PPK.nomor_peserta) = S.kapasitas AS is_full
 
     FROM 
     PARTAI_KOMPETISI AS PK
     JOIN EVENT AS E ON PK.nama_event = E.nama_event AND PK.tahun_event = E.tahun
     JOIN STADIUM AS S ON E.nama_stadium = S.nama AND E.negara = S.negara
-    JOIN PESERTA_MENDAFTAR_EVENT AS PME ON E.nama_event = PME.nama_event AND E.tahun = PME.tahun
+    JOIN PARTAI_PESERTA_KOMPETISI AS PPK ON PK.nama_event = PPK.nama_event AND PK.tahun_event =  PPK.tahun_Event AND PK.jenis_partai = PPK.jenis_partai
 
     GROUP BY 
     E.nama_event, PK.tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas
@@ -165,7 +173,7 @@ def list_partai_kompetisi(request):
     return render(request, 'list_partai_kompetisi.html', context)
 
 @login_required("UMPIRE")
-def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun):
+def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun): # perlu olah lagi
     
     query ="""
     SELECT 
@@ -185,7 +193,6 @@ def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun):
     E.nama_event, PK.tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas
     """.format(jenis_partai=jenis_partai, nama_event=nama_event, tahun=tahun)
 
-    
     curr.execute(query)
     lst = curr.fetchall()
     change_format(lst)
