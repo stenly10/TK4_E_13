@@ -57,18 +57,9 @@ def login_required(role):
                 messages.error(args[0],"Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
             
-            real_role = get_role_with_id(id)
-            if role == "ATLET" and real_role == "ATLET_KUALIFIKASI":
-                real_role = "ATLET"
-
-            if role != real_role:
-                return HttpResponseRedirect(reverse("fitur_putih:dashboard_atlet"))
-
             if not check_role(args[0], role, id):
                 messages.error(args[0], "Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
-            
-
             
             return func(*args, **kwargs)
         return inner1

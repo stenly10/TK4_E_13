@@ -20,14 +20,14 @@
             <a class="nav-link" href="#" style="color: #FFFFFF;">Event</a>
             <div class="dropdown-content">
                 <a href="#">Daftar Event</a>
-                <a href="#">Enrolled Event</a>
+                <a href="{% url 'fitur_ungu:enrolled_event'%}">Enrolled Event</a>
             </div>
         </div>
         <div class="dropdown">
             <a class="nav-link" href="#" style="color: #FFFFFF;">Sponsor</a>
             <div class="dropdown-content">
-                <a href="#">Daftar Sponsor</a>
-                <a href="#">List Sponsor</a>
+                <a href="{% url 'fitur_ungu:daftar_sponsor'%}">Daftar Sponsor</a>
+                <a href="{% url 'fitur_ungu:list_sponsor'%}">List Sponsor</a>
             </div>
         </div>
         <a class ="btn" href="{% url 'fitur_putih:logout' %}" type="submit">Logout</a>
