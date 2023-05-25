@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    {% load static %}
+    <title>List Partai Kompetisi</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+    <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+        </li>
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Atlet</a>
+            <div class="dropdown-content">
+                <a href="{% url 'fitur_pink:daftar_atlet' %}">Daftar Atlet</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Ujian Kualifikasi</a>
+            <div class="dropdown-content">
+                <a href="{% url 'fitur_hijau:ujian_kualifikasi_umpire_create' %}">Buat Ujian Kualifikasi</a>
+                <a href="{% url 'fitur_hijau:ujian_kualifikasi_umpire_read' %}">List Ujian Kualifikasi</a>
+                <a href="{% url 'fitur_hijau:riwayat_kualifikasi_umpire' %}">Riwayat Ujian Kualifikasi</a>
+            </div>
+        </div> 
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Event</a>
+            <div class="dropdown-content">
+                <a href="{% url 'fitur_pink:list_partai_kompetisi' %}">List Partai Kompetisi</a>
+            </div>
+        </div>
+        <a class ="btn" href="{% url 'fitur_putih:logout' %}" type="submit">Logout</a>
+    </div>
+  </nav>
+<br>
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>
+
+<div class="col-md-12">
+    <h3 class="section-heading">HASIL PERTANDINGAN {{ hasil_pertandingan.0.jenis_partai }} - {{ hasil_pertandingan.0.nama_event }}</h3>
+    <div class="text-center"> 
+        {% if hasil_pertandingan %}
+        {% for hasil in hasil_pertandingan %}
+            <p>Nama Event: {{ hasil.nama_event }}</p>
+            <p>Stadium: {{ hasil.nama_stadium }}</p>
+            <p>Hadiah: {{ hasil.total_hadiah }}</p>
+            <p>Kategori Superseries: {{ hasil.kategori_superseries }}</p>
+            <p>Tanggal Mulai: {{ hasil.tgl_mulai }}</p>
+            <p>Tanggal Selesai: {{ hasil.tgl_selesai }}</p>
+            <p>Kapasitas: {{ hasil.kapasitas }}</p>
+        {% endfor %}
+        {% endif %}
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>Tahap</th>
+                    <th>Nama Tim</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>Juara 1</td>
+                <td> {{ nama_tim.0.nama }}</td>
+            </tr>
+            <tr>
+                <th>Juara 2</td>
+                <td>{{ nama_tim.1.nama }}</td>
+            </tr>
+            <tr>
+                <th>Juara 3</td>
+                <td>{{ nama_tim.2.nama }}</td>
+            </tr>
+            <tr>
+                <th>Semifinal</td>
+                <td>{{ nama_tim.3.nama }}</td>
+            </tr>
+            <tr>
+                <th>Final</td>
+                <td>{{ nama_tim.4.nama }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if messages %}
+        {% for message in messages %}
+            <script>
+              message = "{{message}}"
+              $(document).ready(function(){
+                window.alert(message);
+              })
+            </script>
+        {% endfor %}
+      {% endif %}
+{% endblock content %}
