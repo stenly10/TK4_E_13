@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    {% load static %}
+    <title>Daftar Atlet</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+    <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+        </li>
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Latih Atlet</a>
+            <div class="dropdown-content">
+                <a href="{% url 'fitur_pink:latih_atlet' %}">Create Latih Atlet</a>
+                <a href="{% url 'fitur_pink:list_atlet' %}">List Atlet Dilatih</a>
+            </div>
+        </div>
+        <a class ="btn" href="{% url 'fitur_putih:logout' %}" type="submit">Logout</a>
+    </div>
+</nav>
+
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>
+
+<br>
+<div class="col-md-12">
+    <h3 class="section-heading">Atlet yang Anda latih</h3>
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Nama Atlet</th>
+                <th>Email</th>
+                <th>World Rank</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for atlet in atlets %}
+            <tr>
+                <td>{{ atlet.nama }}</td>
+                <td>{{ atlet.email }}</td>
+                <td>{{ atlet.world_rank }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if messages %}
+        {% for message in messages %}
+            <script>
+              message = "{{message}}"
+              $(document).ready(function(){
+                window.alert(message);
+              })
+            </script>
+        {% endfor %}
+      {% endif %}
+{% endblock content %}

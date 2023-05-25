@@ -40,13 +40,13 @@ def change_date_format(param):
 def daftar_atlet(request):
     id_umpire = request.COOKIES['id']
 
-    query_kualifikasi = f"SELECT M.nama, MAX(A.tgl_lahir) AS tgl_lahir, A.negara_asal, A.height, MAX(AK.world_rank) AS world_rank, MAX(AK.world_tour_rank) AS world_tour_rank, A.jenis_kelamin, SUM(PH.total_point) AS total_point FROM ATLET_KUALIFIKASI AS AK, ATLET AS A, MEMBER AS M, POINT_HISTORY AS PH WHERE AK.id_atlet = A.id AND A.id = M.id AND PH.id_atlet = AK.id_atlet GROUP BY M.nama, A.negara_asal, A.height, A.jenis_kelamin"
+    query_kualifikasi = f"SELECT M.nama, MAX(A.tgl_lahir) AS tgl_lahir, A.play_right, A.negara_asal, A.height, MAX(AK.world_rank) AS world_rank, MAX(AK.world_tour_rank) AS world_tour_rank, A.jenis_kelamin, SUM(PH.total_point) AS total_point FROM ATLET_KUALIFIKASI AS AK, ATLET AS A, MEMBER AS M, POINT_HISTORY AS PH WHERE AK.id_atlet = A.id AND A.id = M.id AND PH.id_atlet = AK.id_atlet GROUP BY M.nama, A.negara_asal, A.height, A.jenis_kelamin, A.play_right"
 
     curr.execute(query_kualifikasi)
     lst_kualifikasi = curr.fetchall()
     change_format(lst_kualifikasi)
 
-    query_non_kualifikasi = f"SELECT M.nama, A.tgl_lahir, A.negara_asal, A.height, A.play_right, A.jenis_kelamin FROM ATLET_NON_KUALIFIKASI AS ANK, ATLET AS A, MEMBER AS M WHERE ANK.id_atlet = A.id AND A.id = M.id"
+    query_non_kualifikasi = f"SELECT M.nama, A.tgl_lahir, A.play_right, A.negara_asal, A.height, A.jenis_kelamin FROM ATLET_NON_KUALIFIKASI AS AK, ATLET AS A, MEMBER AS M WHERE A.id = M.id AND AK.id_atlet = A.id GROUP BY M.nama, A.negara_asal, A.height, A.jenis_kelamin, A.play_right, A.tgl_lahir"
     
     curr.execute(query_non_kualifikasi )
     lst_non_kualifikasi = curr.fetchall()
@@ -89,7 +89,7 @@ def latih_atlet(request): # tinggal triggernya (checked)
 
     # buat pilihan
     query = """
-    SELECT M.nama 
+    SELECT M.nama, A.id
 
     FROM
     ATLET AS A,
@@ -127,10 +127,13 @@ def latih_atlet_post(request, id_pelatih):
 # read
 @login_required("PELATIH")
 def list_atlet(request):
+
     id_pelatih = request.COOKIES['id']
 
+    print("id_pelatih:", id_pelatih)
+
     query = """
-    SELECT A.id, M.email, A.world_rank
+    SELECT M.nama, M.email, A.world_rank
     FROM ATLET AS A, MEMBER AS M, ATLET_PELATIH AS AP
     WHERE AP.id_pelatih = '{id_pelatih}'
     AND AP.id_atlet = A.id
@@ -141,8 +144,9 @@ def list_atlet(request):
     lst = curr.fetchall()
     change_format(lst)
     context = {
-        'atlet':lst
+        'atlets':lst
     }
+
     return render(request, 'list_atlet.html', context)
 
 @login_required("UMPIRE")
@@ -170,14 +174,15 @@ def list_partai_kompetisi(request): #perlu cek lagi, ganti PME jadi peserta_part
     context = {
         'partai_kompetisi':lst
     }
+    print(lst)
     return render(request, 'list_partai_kompetisi.html', context)
 
 @login_required("UMPIRE")
-def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun): # perlu olah lagi
+def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun):
     
     query ="""
     SELECT 
-    E.nama_event, PK.tahun_event AS tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas,
+    E.nama_event, PK.tahun_event AS tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas, E.total_hadiah
 
     FROM 
     PARTAI_KOMPETISI AS PK
@@ -190,13 +195,31 @@ def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun): # perlu o
     PK.tahun_event = {tahun}
 
     GROUP BY 
-    E.nama_event, PK.tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas
+    E.nama_event, PK.tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas, E.total_hadiah
     """.format(jenis_partai=jenis_partai, nama_event=nama_event, tahun=tahun)
 
     curr.execute(query)
     lst = curr.fetchall()
     change_format(lst)
+
+    query2 ="""
+    SELECT 
+    M.nama
+
+    from MEMBER as M
+    LIMIT 5
+    """
+
+    curr.execute(query2)
+    lst2 = curr.fetchall()
+    change_format(lst2)
+
     context = {
-        'hasil_pertandingan':lst
+        'hasil_pertandingan':lst,
+        'nama_tim':lst2
+
     }
+    # print(lst)
+    print(lst2)
     return render(request, 'list_hasil_pertandingan.html', context)
+

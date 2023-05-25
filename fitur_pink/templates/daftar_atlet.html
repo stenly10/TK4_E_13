@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block meta %}
-{% load static %}
+    {% load static %}
     <title>Daftar Atlet</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 {% endblock meta %}
-{% block content %}
 
+{% block content %}
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
   <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,131 +14,141 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Atlet</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #FFFFFF;">Lihat Event</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #FFFFFF;">Hasil Pertandingan</a>
-        </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
-    </form>
-    </div>
+  <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+      </li>
+      <div class="dropdown">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Atlet</a>
+          <div class="dropdown-content">
+              <a href="{% url 'fitur_pink:daftar_atlet' %}">Daftar Atlet</a>
+          </div>
+      </div>
+      <div class="dropdown">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Ujian Kualifikasi</a>
+          <div class="dropdown-content">
+              <a href="{% url 'fitur_hijau:ujian_kualifikasi_umpire_create' %}">Buat Ujian Kualifikasi</a>
+              <a href="{% url 'fitur_hijau:ujian_kualifikasi_umpire_read' %}">List Ujian Kualifikasi</a>
+              <a href="{% url 'fitur_hijau:riwayat_kualifikasi_umpire' %}">Riwayat Ujian Kualifikasi</a>
+          </div>
+      </div> 
+      <div class="dropdown">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Event</a>
+          <div class="dropdown-content">
+              <a href="{% url 'fitur_pink:list_partai_kompetisi' %}">List Partai Kompetisi</a>
+          </div>
+      </div>
+      <a class ="btn" href="{% url 'fitur_putih:logout' %}" type="submit">Logout</a>
+  </div>
 </nav>
-           
-  <br>
-    <h1 style="text-align: center;">Daftar Atlet</h1>
-    <div class="flex" style=" margin:0 auto; justify-content: center; display:flex;">
-      <div class="row">
-        <br>
-        <br>
-        <h3 style="text-align: center;">Atlet Kualifikasi</h3>
-        <table>
-            <thead>
-              <tr>
-                <th>Nama</th>
-                <th>Tanggal Lahir</th>
-                <th>Negara Asal</th>
-                <th>Play Right</th>
-                <th>Height</th>
-                <th>World Rank</th>
-                <th>World Tour Rank</th>
-                <th>Jenis Kelamin</th>
-                <th>Total Point</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for atlet in atlet_kualifikasi %}
-              <tr>
-                <td>{{ atlet.nama }}</td>
-                <td>{{ atlet.tgl_lahir }}</td>
-                <td>{{ atlet.negara_asal }}</td>
-                <td>{{ atlet.play_right }}</td>
-                <td>{{ atlet.height }}</td>
-                <td>{{ atlet.world_rank }}</td>
-                <td>{{ atlet.world_tour_rank }}</td>
-                <td>{{ atlet.jenis_kelamin }}</td>
-                <td>{{ atlet.total_point }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          <br>
-          <br>
-          <br>
-          <h3 style="text-align: center;">Atlet Non Kualifikasi</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Nama</th>
-                <th>Tanggal Lahir</th>
-                <th>Negara Asal</th>
-                <th>Play Right</th>
-                <th>Height</th>
-                <th>World Rank</th>
-                <th>Jenis Kelamin</th>
-                <th>Total Point</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for atlet in atlet_non_kualifikasi %}
-              <tr>
-                <td>{{ atlet.nama }}</td>
-                <td>{{ atlet.tgl_lahir }}</td>
-                <td>{{ atlet.negara_asal }}</td>
-                <td>{{ atlet.play_right }}</td>
-                <td>{{ atlet.height }}</td>
-                <td>-</td>
-                <td>{{ atlet.jenis_kelamin }}</td>
-                <td>{{ atlet.total_point }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          <br>
-          <br>
-          <br>
-          <h3 style="text-align: center;">Atlet Ganda</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>ID Atlet Ganda</th>
-                <th>Nama Atlet 1</th>
-                <th>nNama Atlet 2</th>
-                <th>Total Point</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for atlet in atlet_ganda %}
-              <tr>
-                <td>{{ atlet.id_atlet_ganda }}</td>
-                <td>{{ atlet.nama_atlet_kualifikasi }}</td>
-                <td>{{ atlet.nama_atlet_kualifikasi_2 }}</td>
-                <td>{{ atlet.total_point }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
+
+<style>
+  .table td {
+      vertical-align: middle;
+  }
+</style>
+
+<div class="container mt-5 text-center">
+  <h1 class="mb-4" style="color: green; text-decoration: underline;">Daftar Atlet</h1>
+  <div class="row">
+      <div class="col-md-12">
+          <h3 class="section-heading">Atlet Kualifikasi</h3>
+          <table class="table table-striped">
+              <thead class="thead-light">
+                  <tr>
+                      <th>Nama</th>
+                      <th>Tanggal Lahir</th>
+                      <th>Negara Asal</th>
+                      <th>Play Right</th>
+                      <th>Height</th>
+                      <th>World Rank</th>
+                      <th>World Tour Rank</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Total Point</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for atlet in atlet_kualifikasi %}
+                  <tr>
+                      <td>{{ atlet.nama }}</td>
+                      <td>{{ atlet.tgl_lahir }}</td>
+                      <td>{{ atlet.negara_asal }}</td>
+                      <td>{{ atlet.play_right }}</td>
+                      <td>{{ atlet.height }}</td>
+                      <td>{{ atlet.world_rank }}</td>
+                      <td>{{ atlet.world_tour_rank }}</td>
+                      <td>{{ atlet.jenis_kelamin }}</td>
+                      <td>{{ atlet.total_point }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
           </table>
       </div>
-    </div>
-    
-    {% if messages %}
-      {% for message in messages %}
-          <script>
-            message = "{{message}}"
-            $(document).ready(function(){
-              window.alert(message);
-            })
-          </script>
-      {% endfor %}
-    {% endif %}
-{% endblock content %}
+      <div class="col-md-12">
+          <h3 class="section-heading">Atlet Non Kualifikasi</h3>
+          <table class="table table-striped">
+              <thead class="thead-light">
+                  <tr>
+                      <th>Nama</th>
+                      <th>Tanggal Lahir</th>
+                      <th>Negara Asal</th>
+                      <th>Play Right</th>
+                      <th>Height</th>
+                      <th>World Rank</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Total Point</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for atlet in atlet_non_kualifikasi %}
+                  <tr>
+                      <td>{{ atlet.nama }}</td>
+                      <td>{{ atlet.tgl_lahir }}</td>
+                      <td>{{ atlet.negara_asal }}</td>
+                      <td>{{ atlet.play_right }}</td>
+                      <td>{{ atlet.height }}</td>
+                      <td>-</td>
+                      <td>{{ atlet.jenis_kelamin }}</td>
+                      <td>{{0}}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+      <div class="col-md-12">
+          <h3 class="section-heading">Atlet Ganda</h3>
+          <table class="table table-striped">
+              <thead class="thead-light">
+                  <tr>
+                      <th>ID Atlet Ganda</th>
+                      <th>Nama Atlet 1</th>
+                      <th>Nama Atlet 2</th>
+                      <th>Total Point</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for atlet in atlet_ganda %}
+                  <tr>
+                      <td>{{ atlet.id_atlet_ganda }}</td>
+                      <td>{{ atlet.nama_atlet_kualifikasi }}</td>
+                      <td>{{ atlet.nama_atlet_kualifikasi_2 }}</td>
+                      <td>{{ atlet.total_point }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
 
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+              message = "{{message}}"
+              $(document).ready(function(){
+                window.alert(message);
+              })
+            </script>
+        {% endfor %}
+      {% endif %}
+{% endblock content %}

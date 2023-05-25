@@ -187,7 +187,7 @@ def dashboard_pelatih(request):
 
 @login_required(role="ATLET")
 def dashboard_atlet(request):
-    id = request.COOKIES['id']
+    id = request.COOKIES.get('id', None)
     query = ("SELECT M.nama, M.email, A.negara_asal, A.tgl_lahir, A.play_right, A.height, A.world_rank, A.jenis_kelamin, STRING_AGG(P.nama, \', \') AS pelatih "
             + "FROM MEMBER M "
             + f"JOIN ATLET A ON A.id = \'{id}\' AND A.id = M.id "
