@@ -103,7 +103,7 @@ def register_pelatih(request):
             insert_pelatih_spesialisasi(id, "Ganda Campuran")
         conn.commit()
     except Exception as e:
-        print(e)
+        messages.error(request, generate_error_message(e))
         conn.rollback()
         return render(request, "register_pelatih.html")
     
@@ -123,10 +123,10 @@ def register_umpire(request):
         curr.execute(insert_umpire)
         conn.commit()
     except Exception as e:
+        messages.error(request, generate_error_message(e))
         conn.rollback()
         return render(request, "register_umpire.html")
     
-    return render(request, 'register_umpire.html')
     
 def generate_id():
     id = str(uuid.uuid4())
