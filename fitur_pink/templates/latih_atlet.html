@@ -18,16 +18,14 @@
         <li class="nav-item">
             <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Atlet</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #FFFFFF;">List Atlet</a>
-        </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
-    </form>
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Latih Atlet</a>
+            <div class="dropdown-content">
+                <a href="{% url 'fitur_pink:latih_atlet' %}">Create Latih Atlet</a>
+                <a href="{% url 'fitur_pink:list_atlet' %}">List Atlet Dilatih</a>
+            </div>
+        </div>
+        <a class ="btn" href="{% url 'fitur_putih:logout' %}" type="submit">Logout</a>
     </div>
 </nav>
 
