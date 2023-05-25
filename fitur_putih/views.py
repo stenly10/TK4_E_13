@@ -8,6 +8,11 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from fitur_putih.auth import login_required
+from fitur_putih.auth import get_role_with_id
+from datetime import date
+from datetime import datetime
+
 
 conn = psycopg2.connect(
     database = settings.DATABASE_NAME,
@@ -30,6 +35,7 @@ def login_member(request):
         messages.error(request, "Email atau nama salah")
         return render(request, "login.html")
     return login(member['id'])
+    
 
 def register(request):
     return render(request, 'register.html')
@@ -152,4 +158,76 @@ def landing_page(request):
     return render(request, 'landing_page.html')
 
 
+@login_required(role="PELATIH")
+def dashboard_pelatih(request):
+    id = request.COOKIES['id']
+    query = ("SELECT M.nama, M.email, P.tanggal_mulai, STRING_AGG(S.spesialisasi, \', \') AS spesialisasi "
+            + "FROM MEMBER M "
+            + f"JOIN PELATIH P ON P.id = \'{id}\' AND P.id = M.id "
+            + "JOIN PELATIH_SPESIALISASI PS ON PS.id_pelatih = P.id "
+            + "JOIN SPESIALISASI S ON PS.id_spesialisasi = S.id "
+            + "GROUP BY P.id, M.id")
+    curr.execute(query)
+    lst = curr.fetchall()
+    pelatih = dict(lst[0])
+    context = {
+        'pelatih':pelatih
+    }
+    return render(request, 'dashboard_pelatih.html', context)
+
+@login_required(role="ATLET")
+def dashboard_atlet(request):
+    id = request.COOKIES['id']
+    query = ("SELECT M.nama, M.email, A.negara_asal, A.tgl_lahir, A.play_right, A.height, A.world_rank, A.jenis_kelamin, STRING_AGG(P.nama, \', \') AS pelatih "
+            + "FROM MEMBER M "
+            + f"JOIN ATLET A ON A.id = \'{id}\' AND A.id = M.id "
+            + "JOIN ATLET_PELATIH AP ON AP.id_atlet = A.id "
+            + "JOIN (SELECT PEL.id, MEM.nama FROM PELATIH PEL JOIN MEMBER MEM ON PEL.id = MEM.id) P ON AP.id_pelatih = P.id "
+            + "GROUP BY M.id, A.id")
+    curr.execute(query)
+    lst = curr.fetchall()
+    atlet = dict(lst[0])
+    atlet['total_point'] = get_total_point_atlet(id)
+    context = {
+        'atlet':atlet
+    }
+    return render(request, "dashboard_atlet.html", context)
+
+def get_total_point_atlet(id):
+    query = f"SELECT * FROM POINT_HISTORY WHERE id_atlet = \'{id}\'"
+    curr.execute(query)
+    lst = curr.fetchall()
+    if len(lst) == 0:
+        return 0
+    change_format(lst)
+    return create_total_point(lst)
+
+def create_total_point(lst):
+    lst = sorted(lst, key= lambda x: (x['tahun'], x['bulan'], x['minggu_ke']), reverse=True)
+    total_point = 0
+    for elm in lst[:52]:
+        total_point += elm['total_point']
+    return total_point
+
+@login_required(role="UMPIRE")
+def dashboard_umpire(request):
+    id = request.COOKIES['id']
+    query = f"SELECT M.nama, M.email, U.negara FROM MEMBER AS M, UMPIRE AS U WHERE U.id = \'{id}\' AND U.id = M.id"
+    curr.execute(query)
+    lst = curr.fetchall()
+    umpire = dict(lst[0])
+    context = {
+        'umpire':umpire
+    }
+    return render(request, 'dashboard_umpire.html', context)
+
+def change_format(lst):
+    for i in range(len(lst)):
+        lst[i] = dict(lst[i])
+        change_month(lst[i])
+
+def change_month(param):
+    param['bulan'] = datetime.strptime(param['bulan'], '%B').month
+        
+        
 
