@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+    <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+        </li>
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Ujian Kualifikasi</a>
+            <div class="dropdown-content">
+                <a href="{% url 'fitur_hijau:ujian_kualifikasi_atlet' %}">List Ujian Kualifikasi</a>
+                <a href="{% url 'fitur_hijau:riwayat_kualifikasi_atlet' %}">Riwayat Ujian Kualifikasi</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Event</a>
+            <div class="dropdown-content">
+                <a href="#">Daftar Event</a>
+                <a href="#">Enrolled Event</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Sponsor</a>
+            <div class="dropdown-content">
+                <a href="#">Daftar Sponsor</a>
+                <a href="#">List Sponsor</a>
+            </div>
+        </div>
+        <button class="btn btn-outline-light my-2 my-sm-0" href="#" type="submit">Logout</button>
+    </div>
+</nav>
