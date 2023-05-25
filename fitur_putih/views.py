@@ -10,6 +10,8 @@ from django.urls import reverse
 from django.contrib import messages
 from fitur_putih.auth import login_required
 from fitur_putih.auth import get_role_with_id
+from datetime import date
+from datetime import datetime
 
 
 conn = psycopg2.connect(
@@ -192,12 +194,20 @@ def dashboard_atlet(request):
     return render(request, "dashboard_atlet.html", context)
 
 def get_total_point_atlet(id):
-    query = f"SELECT SUM(total_point) AS total_point FROM POINT_HISTORY WHERE id_atlet = \'{id}\' GROUP BY id_atlet LIMIT 12"
+    query = f"SELECT * FROM POINT_HISTORY WHERE id_atlet = \'{id}\'"
     curr.execute(query)
     lst = curr.fetchall()
     if len(lst) == 0:
         return 0
-    return dict(lst[0])['total_point']
+    change_format(lst)
+    return create_total_point(lst)
+
+def create_total_point(lst):
+    lst = sorted(lst, key= lambda x: (x['tahun'], x['bulan'], x['minggu_ke']), reverse=True)
+    total_point = 0
+    for elm in lst[:52]:
+        total_point += elm['total_point']
+    return total_point
 
 @login_required(role="UMPIRE")
 def dashboard_umpire(request):
@@ -211,5 +221,13 @@ def dashboard_umpire(request):
     }
     return render(request, 'dashboard_umpire.html', context)
 
+def change_format(lst):
+    for i in range(len(lst)):
+        lst[i] = dict(lst[i])
+        change_month(lst[i])
 
+def change_month(param):
+    param['bulan'] = datetime.strptime(param['bulan'], '%B').month
+        
+        
 
