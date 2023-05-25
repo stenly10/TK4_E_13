@@ -11,4 +11,7 @@ urlpatterns = [
     path('register', register, name='register'),
     path('logout', logout_user, name='logout'),
     path('', landing_page, name='landing_page'),
+    path('dashboard/atlet', dashboard_atlet, name='dashboard_atlet'),
+    path('dashboard/pelatih', dashboard_pelatih, name='dashboard_pelatih'),
+    path('dashboard/umpire', dashboard_umpire, name='dashboard_umpire'),
 ]

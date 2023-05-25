@@ -25,7 +25,13 @@ def authenticate(nama, email):
     return dict(lst[0])
 
 def login(id):
-    response = HttpResponseRedirect(reverse("example_app:index"))
+    role = get_role_with_id(id)
+    if role == "ATLET":
+        response =  HttpResponseRedirect(reverse("fitur_putih:dashboard_atlet"))
+    if role == "PELATIH":
+        response = HttpResponseRedirect(reverse("fitur_putih:dashboard_pelatih"))
+    if role == "UMPIRE":
+        response =  HttpResponseRedirect(reverse("fitur_putih:dashboard_umpire"))
     response.set_cookie('id', id)
     return response
 
@@ -77,5 +83,13 @@ def check_role(request, role, id):
     curr.execute(query)
     lst = curr.fetchall()
     return len(lst) != 0
+
+def get_role_with_id(id):
+    if check_role(None, "ATLET", id):
+        return "ATLET"
+    elif check_role(None, "PELATIH", id):
+        return "PELATIH"
+    elif check_role(None, "UMPIRE", id):
+        return "UMPIRE"
     
     
