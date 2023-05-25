@@ -12,7 +12,7 @@
         <div class="dropdown">
             <a class="nav-link" href="#" style="color: #FFFFFF;">Atlet</a>
             <div class="dropdown-content">
-                <a href="{% url 'fitur_pink:daftar_atlet' %}">Daftar Atlet</a>
+                <a href="">Daftar Atlet</a>
             </div>
         </div>
         <div class="dropdown">
@@ -26,9 +26,9 @@
         <div class="dropdown">
             <a class="nav-link" href="#" style="color: #FFFFFF;">Event</a>
             <div class="dropdown-content">
-                <a href="{% url 'fitur_pink:list_partai_kompetisi' %}">List Partai Kompetisi</a>
+                <a href="">List Partai Kompetisi</a>
             </div>
         </div>
-        <button class="btn btn-outline-light my-2 my-sm-0" href="#" type="submit">Logout</button>
+        <a class ="btn" href="{% url 'fitur_putih:logout' %}" type="submit">Logout</a>
     </div>
 </nav>
