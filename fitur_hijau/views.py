@@ -163,7 +163,7 @@ def check_ujian_kualifikasi(request):
 
     return render(request, 'ujian_kualifikasi_question.html')
 
-@login_required(role="ATLET_KUALIFIKASI")
+@login_required(role="ATLET")
 def riwayat_kualifikasi_atlet(request):
     id_atlet = request.COOKIES['id']
     query = f'SELECT * FROM ATLET_NONKUALIFIKASI_UJIAN_KUALIFIKASI WHERE id_atlet = \'{id_atlet}\''
