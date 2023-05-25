@@ -22,4 +22,5 @@ urlpatterns = [
     path('ungu/', include('fitur_ungu.urls')),
     path('', include('fitur_putih.urls')),
     path('hijau/', include('fitur_hijau.urls')),
+    path('pink/', include('fitur_pink.urls')),
 ]

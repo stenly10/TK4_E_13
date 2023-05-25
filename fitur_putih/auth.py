@@ -26,7 +26,7 @@ def authenticate(nama, email):
 
 def login(id):
     role = get_role_with_id(id)
-    if role == "ATLET":
+    if role == "ATLET" or role == "ATLET_KUALIFIKASI":
         response =  HttpResponseRedirect(reverse("fitur_putih:dashboard_atlet"))
     if role == "PELATIH":
         response = HttpResponseRedirect(reverse("fitur_putih:dashboard_pelatih"))
@@ -47,6 +47,7 @@ def login_required(role):
     def inner(func):
         def inner1(*args, **kwargs):
             id = args[0].COOKIES.get('id', None)
+
             if id == None:
                 messages.error(args[0],"Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
@@ -56,9 +57,18 @@ def login_required(role):
                 messages.error(args[0],"Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
             
+            real_role = get_role_with_id(id)
+            if role == "ATLET" and real_role == "ATLET_KUALIFIKASI":
+                real_role = "ATLET"
+
+            if role != real_role:
+                return HttpResponseRedirect(reverse("fitur_putih:dashboard_atlet"))
+
             if not check_role(args[0], role, id):
                 messages.error(args[0], "Silahkan login terlebih dahulu")
                 return HttpResponseRedirect(reverse("fitur_putih:login"))
+            
+
             
             return func(*args, **kwargs)
         return inner1
@@ -79,7 +89,10 @@ def get_role(request):
         return "UMPIRE"
 
 def check_role(request, role, id):
-    query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
+    if role == "ATLET_KUALIFIKASI":
+        query = f"SELECT * FROM ATLET_KUALIFIKASI AS X WHERE X.id_atlet = \'{id}\'"
+    else :
+        query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
     curr.execute(query)
     lst = curr.fetchall()
     return len(lst) != 0
@@ -93,5 +106,3 @@ def get_role_with_id(id):
         return "PELATIH"
     elif check_role(None, "UMPIRE", id):
         return "UMPIRE"
-    
-    
