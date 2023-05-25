@@ -85,7 +85,9 @@ def check_role(request, role, id):
     return len(lst) != 0
 
 def get_role_with_id(id):
-    if check_role(None, "ATLET", id):
+    if check_role(None, "ATLET_KUALIFIKASI", id):
+        return "ATLET_KUALIFIKASI"
+    elif check_role(None, "ATLET", id):
         return "ATLET"
     elif check_role(None, "PELATIH", id):
         return "PELATIH"
