@@ -185,13 +185,13 @@ def riwayat_kualifikasi_atlet(request):
 
 @login_required(role="UMPIRE")
 def riwayat_kualifikasi_umpire(request):
-    query = f'SELECT * FROM ATLET_NONKUALIFIKASI_UJIAN_KUALIFIKASI'
+    query = f'SELECT M.nama, ANU.tahun, ANU.batch, ANU.tempat, ANU.tanggal, ANU.hasil_lulus FROM ATLET_NONKUALIFIKASI_UJIAN_KUALIFIKASI AS ANU, MEMBER AS M WHERE M.id = ANU.id_atlet'
     curr.execute(query)
     lst = curr.fetchall()
     list_data = []
     for x in lst:
         context = {}
-        context["id"] = x[0]
+        context["nama"] = x[0]
         context["tahun"] = x[1]
         context["batch"] = x[2]
         context["tempat"] = x[3]
