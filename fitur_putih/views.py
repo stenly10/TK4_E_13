@@ -69,7 +69,7 @@ def register_atlet(request):
         messages.error(request, generate_error_message(e))
         conn.rollback()
         return render(request, "register_atlet.html")
-    return render(request, "register_atlet.html")
+    return HttpResponseRedirect(reverse("fitur_putih:login"))
 
 
 
@@ -107,7 +107,7 @@ def register_pelatih(request):
         conn.rollback()
         return render(request, "register_pelatih.html")
     
-    return render(request, 'register_pelatih.html')
+    return HttpResponseRedirect(reverse("fitur_putih:login"))
 
 def register_umpire(request):
     if request.method == "GET":
@@ -127,6 +127,8 @@ def register_umpire(request):
         conn.rollback()
         return render(request, "register_umpire.html")
     
+    return HttpResponseRedirect(reverse("fitur_putih:login"))
+
     
 def generate_id():
     id = str(uuid.uuid4())
