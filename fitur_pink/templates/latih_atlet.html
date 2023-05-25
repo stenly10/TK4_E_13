@@ -31,16 +31,37 @@
     </div>
 </nav>
 
-<br>
-    <h1 class="text-center">Daftar Atlet</h1>
-    <div style="width:800px; margin:0 auto; justify-content: center; display:flex;">
-    <label >Atlet yang mau didaftarkan: </label>
-    <select name="Atlet Tersedia">
-        <option value="">sukiman1</option>
-        <option value="">sukiman2</option>
-    </select>
-</div>
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>
 
+<br>
+<h1 class="text-center">Latih Atlet</h1>
+<form method="post" action="{% url 'latih_atlet' %}">
+    {% csrf_token %}
+    <div style="width:800px; margin:0 auto; justify-content: center; display:flex;">
+        <label>Atlet yang mau didaftarkan:</label>
+        <select name="id_atlet">
+            {% for atlet in pilihan_atlet %}
+                <option value="{{ atlet.id }}">{{ atlet.nama }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <br>
-    <button style=" margin:0 auto; justify-content: center; display:flex;" class="text-center">Submit</button>
-    <br>
+    <button style="margin:0 auto; justify-content: center; display:flex;" class="btn btn-primary d-block mx-auto" type="submit">Submit</button>
+</form>
+<br>
+
+{% if messages %}
+        {% for message in messages %}
+            <script>
+              message = "{{message}}"
+              $(document).ready(function(){
+                window.alert(message);
+              })
+            </script>
+        {% endfor %}
+      {% endif %}
+{% endblock content %}

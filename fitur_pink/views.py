@@ -89,7 +89,7 @@ def latih_atlet(request): # tinggal triggernya (checked)
 
     # buat pilihan
     query = """
-    SELECT M.nama 
+    SELECT M.nama, A.id
 
     FROM
     ATLET AS A,
@@ -127,7 +127,10 @@ def latih_atlet_post(request, id_pelatih):
 # read
 @login_required("PELATIH")
 def list_atlet(request):
+
     id_pelatih = request.COOKIES['id']
+
+    print("id_pelatih:", id_pelatih)
 
     query = """
     SELECT M.nama, M.email, A.world_rank
@@ -141,8 +144,9 @@ def list_atlet(request):
     lst = curr.fetchall()
     change_format(lst)
     context = {
-        'atlet':lst
+        'atlets':lst
     }
+
     return render(request, 'list_atlet.html', context)
 
 @login_required("UMPIRE")
@@ -170,14 +174,15 @@ def list_partai_kompetisi(request): #perlu cek lagi, ganti PME jadi peserta_part
     context = {
         'partai_kompetisi':lst
     }
+    print(lst)
     return render(request, 'list_partai_kompetisi.html', context)
 
 @login_required("UMPIRE")
-def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun): # perlu olah lagi
+def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun):
     
     query ="""
     SELECT 
-    E.nama_event, PK.tahun_event AS tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas,
+    E.nama_event, PK.tahun_event AS tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas, E.total_hadiah
 
     FROM 
     PARTAI_KOMPETISI AS PK
@@ -190,13 +195,31 @@ def list_hasil_pertandingan(request, jenis_partai, nama_event, tahun): # perlu o
     PK.tahun_event = {tahun}
 
     GROUP BY 
-    E.nama_event, PK.tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas
+    E.nama_event, PK.tahun_event, E.nama_stadium, PK.jenis_partai, E.kategori_superseries, E.tgl_mulai, E.tgl_selesai, S.kapasitas, E.total_hadiah
     """.format(jenis_partai=jenis_partai, nama_event=nama_event, tahun=tahun)
 
     curr.execute(query)
     lst = curr.fetchall()
     change_format(lst)
+
+    query2 ="""
+    SELECT 
+    M.nama
+
+    from MEMBER as M
+    LIMIT 5
+    """
+
+    curr.execute(query2)
+    lst2 = curr.fetchall()
+    change_format(lst2)
+
     context = {
-        'hasil_pertandingan':lst
+        'hasil_pertandingan':lst,
+        'nama_tim':lst2
+
     }
+    # print(lst)
+    print(lst2)
     return render(request, 'list_hasil_pertandingan.html', context)
+

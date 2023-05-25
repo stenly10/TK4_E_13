@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    {% load static %}
+    <title>List Partai Kompetisi</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+  <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Atlet</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Lihat Event</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Hasil Pertandingan</a>
+          </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+      </form>
+  </div>
+</nav>
+
+<br>
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>
+
+<div class="col-md-12">
+    <h3 class="section-heading">List Partai Kompetisi</h3>
+    <div class="text-center"> 
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>Nama Event</th>
+                    <th>Tahun</th>
+                    <th>Stadium</th>
+                    <th>Jenis Partai</th>
+                    <th>Kategori Superseries</th>
+                    <th>Tanggal Mulai</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Kapasitas</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partai in partai_kompetisi %}
+                <tr>
+                    <td>{{ partai.nama_event }}</td>
+                    <td>{{ partai.tahun_event }}</td>
+                    <td>{{ partai.nama_stadium }}</td>
+                    <td>{{ partai.jenis_partai}}</td>
+                    <td>{{ partai.kategori_superseries }}</td>
+                    <td>{{ partai.tgl_mulai }}</td>
+                    <td>{{ partai.tgl_selesai }}</td>
+                    <td>{{ partai.jumlah_pendaftar }} / {{ partai.kapasitas }}</td>
+                    <td>
+                        <div>
+                            <form action="{% url 'list_hasil_pertandingan' partai.jenis_partai partai.nama_event partai.tahun_event %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-primary" style="margin-bottom: 10px;" type="submit" >Mulai</button>
+                            </form>
+                            <form action="{% url 'list_hasil_pertandingan' partai.jenis_partai partai.nama_event partai.tahun_event %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-primary" style="margin-bottom: 10px;" type="submit">Hasil Pertandingan</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if messages %}
+        {% for message in messages %}
+            <script>
+              message = "{{message}}"
+              $(document).ready(function(){
+                window.alert(message);
+              })
+            </script>
+        {% endfor %}
+      {% endif %}
+{% endblock content %}

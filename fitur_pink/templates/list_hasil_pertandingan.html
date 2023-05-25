@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    {% load static %}
+    <title>List Partai Kompetisi</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+  <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Atlet</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Lihat Event</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" style="color: #FFFFFF;">Hasil Pertandingan</a>
+          </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+      </form>
+  </div>
+</nav>
+
+<br>
+<style>
+    .table td {
+        vertical-align: middle;
+    }
+</style>
+
+<div class="col-md-12">
+    <h3 class="section-heading">HASIL PERTANDINGAN {{ hasil_pertandingan.0.jenis_partai }} - {{ hasil_pertandingan.0.nama_event }}</h3>
+    <div class="text-center"> 
+        {% if hasil_pertandingan %}
+        {% for hasil in hasil_pertandingan %}
+            <p>Nama Event: {{ hasil.nama_event }}</p>
+            <p>Stadium: {{ hasil.nama_stadium }}</p>
+            <p>Hadiah: {{ hasil.total_hadiah }}</p>
+            <p>Kategori Superseries: {{ hasil.kategori_superseries }}</p>
+            <p>Tanggal Mulai: {{ hasil.tgl_mulai }}</p>
+            <p>Tanggal Selesai: {{ hasil.tgl_selesai }}</p>
+            <p>Kapasitas: {{ hasil.kapasitas }}</p>
+        {% endfor %}
+        {% endif %}
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>Tahap</th>
+                    <th>Nama Tim</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>Juara 1</td>
+                <td> {{ nama_tim.0.nama }}</td>
+            </tr>
+            <tr>
+                <th>Juara 2</td>
+                <td>{{ nama_tim.1.nama }}</td>
+            </tr>
+            <tr>
+                <th>Juara 3</td>
+                <td>{{ nama_tim.2.nama }}</td>
+            </tr>
+            <tr>
+                <th>Semifinal</td>
+                <td>{{ nama_tim.3.nama }}</td>
+            </tr>
+            <tr>
+                <th>Final</td>
+                <td>{{ nama_tim.4.nama }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if messages %}
+        {% for message in messages %}
+            <script>
+              message = "{{message}}"
+              $(document).ready(function(){
+                window.alert(message);
+              })
+            </script>
+        {% endfor %}
+      {% endif %}
+{% endblock content %}
