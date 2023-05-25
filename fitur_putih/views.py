@@ -25,6 +25,12 @@ curr = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 # Create your views here.
 
+
+def generate_error_message(exception):
+    msg = str(exception)
+    msg = msg[:msg.index('CONTEXT')-1]
+    return msg
+
 def login_member(request):
     if request.method == "GET":
         return render(request, "login.html")
@@ -58,11 +64,13 @@ def register_atlet(request):
         insert_atlet = f"INSERT INTO ATLET VALUES(\'{id}\', \'{tgl_lahir}\', \'{negara_asal}\', \'{play_right}\', {height}, null, \'{jenis_kelamin}\')"
         curr.execute(insert_atlet)
         conn.commit()
-    except Exception:
+    except Exception as e:
+        error_msg = generate_error_message(e)
+        messages.error(request, generate_error_message(e))
         conn.rollback()
         return render(request, "register_atlet.html")
     return render(request, "register_atlet.html")
-    
+
 
 
 def register_pelatih(request):
