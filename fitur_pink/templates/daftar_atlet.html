@@ -9,29 +9,36 @@
 {% block content %}
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
   <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-              <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Atlet</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="#" style="color: #FFFFFF;">Lihat Event</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="#" style="color: #FFFFFF;">Hasil Pertandingan</a>
-          </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
-      </form>
+  <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+      </li>
+      <div class="dropdown">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Atlet</a>
+          <div class="dropdown-content">
+              <a href="{% url 'fitur_pink:daftar_atlet' %}">Daftar Atlet</a>
+          </div>
+      </div>
+      <div class="dropdown">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Ujian Kualifikasi</a>
+          <div class="dropdown-content">
+              <a href="{% url 'fitur_hijau:ujian_kualifikasi_umpire_create' %}">Buat Ujian Kualifikasi</a>
+              <a href="{% url 'fitur_hijau:ujian_kualifikasi_umpire_read' %}">List Ujian Kualifikasi</a>
+              <a href="{% url 'fitur_hijau:riwayat_kualifikasi_umpire' %}">Riwayat Ujian Kualifikasi</a>
+          </div>
+      </div> 
+      <div class="dropdown">
+          <a class="nav-link" href="#" style="color: #FFFFFF;">Event</a>
+          <div class="dropdown-content">
+              <a href="{% url 'fitur_pink:list_partai_kompetisi' %}">List Partai Kompetisi</a>
+          </div>
+      </div>
+      <a class ="btn" href="{% url 'fitur_putih:logout' %}" type="submit">Logout</a>
   </div>
 </nav>
 
