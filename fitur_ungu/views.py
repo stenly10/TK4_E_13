@@ -22,7 +22,7 @@ curr = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 # Create your views here.
 
-@login_required(role="ATLET")
+@login_required(role="ATLET_KUALIFIKASI")
 def enrolled_event(request):
     if request.method == "POST":
         unenroll_event(request)
@@ -77,7 +77,7 @@ def change_date_format(param):
 
 
 
-@login_required(role="ATLET")
+@login_required(role="ATLET_KUALIFIKASI")
 def daftar_sponsor(request):
     id_user = request.COOKIES['id']
     if request.method == "POST":
@@ -109,7 +109,7 @@ def daftar_sponsor_post(request, id_user):
         messages.error(request, generate_error_message(e))
     return 
 
-@login_required("ATLET")
+@login_required("ATLET_KUALIFIKASI")
 def list_sponsor(request):
     id_user = request.COOKIES['id']
     query = f"SELECT ASP.tgl_mulai, ASP.tgl_selesai, S.nama_brand FROM ATLET_SPONSOR AS ASP, SPONSOR AS S WHERE ASP.id_atlet = \'{id_user}\' AND ASP.id_sponsor = S.id"
