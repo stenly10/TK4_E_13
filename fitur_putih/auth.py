@@ -79,7 +79,10 @@ def get_role(request):
         return "UMPIRE"
 
 def check_role(request, role, id):
-    query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
+    if role != "ATLET_KUALIFIKASI":
+        query = f"SELECT * FROM {role} AS X WHERE X.id = \'{id}\'"
+    else:
+        query = f"SELECT * FROM {role} AS X WHERE X.id_atlet = \'{id}\'"
     curr.execute(query)
     lst = curr.fetchall()
     return len(lst) != 0
