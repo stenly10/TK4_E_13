@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    {% load static %}
+    <title>Daftar Atlet</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8fc4b7;">
+    <a class="navbar-brand" href="#" style="color: #FFFFFF;">Babadu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">Daftar Atlet</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #FFFFFF;">List Atlet</a>
+        </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+    </form>
+    </div>
+</nav>
+
+<br>
+    <h1 class="text-center">Daftar Atlet</h1>
+    <div style="width:800px; margin:0 auto; justify-content: center; display:flex;">
+    <label >Atlet yang mau didaftarkan: </label>
+    <select name="Atlet Tersedia">
+        <option value="">sukiman1</option>
+        <option value="">sukiman2</option>
+    </select>
+</div>
+
+    <br>
+    <button style=" margin:0 auto; justify-content: center; display:flex;" class="text-center">Submit</button>
+    <br>

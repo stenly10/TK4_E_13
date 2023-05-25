@@ -40,13 +40,13 @@ def change_date_format(param):
 def daftar_atlet(request):
     id_umpire = request.COOKIES['id']
 
-    query_kualifikasi = f"SELECT M.nama, MAX(A.tgl_lahir) AS tgl_lahir, A.negara_asal, A.height, MAX(AK.world_rank) AS world_rank, MAX(AK.world_tour_rank) AS world_tour_rank, A.jenis_kelamin, SUM(PH.total_point) AS total_point FROM ATLET_KUALIFIKASI AS AK, ATLET AS A, MEMBER AS M, POINT_HISTORY AS PH WHERE AK.id_atlet = A.id AND A.id = M.id AND PH.id_atlet = AK.id_atlet GROUP BY M.nama, A.negara_asal, A.height, A.jenis_kelamin"
+    query_kualifikasi = f"SELECT M.nama, MAX(A.tgl_lahir) AS tgl_lahir, A.play_right, A.negara_asal, A.height, MAX(AK.world_rank) AS world_rank, MAX(AK.world_tour_rank) AS world_tour_rank, A.jenis_kelamin, SUM(PH.total_point) AS total_point FROM ATLET_KUALIFIKASI AS AK, ATLET AS A, MEMBER AS M, POINT_HISTORY AS PH WHERE AK.id_atlet = A.id AND A.id = M.id AND PH.id_atlet = AK.id_atlet GROUP BY M.nama, A.negara_asal, A.height, A.jenis_kelamin, A.play_right"
 
     curr.execute(query_kualifikasi)
     lst_kualifikasi = curr.fetchall()
     change_format(lst_kualifikasi)
 
-    query_non_kualifikasi = f"SELECT M.nama, A.tgl_lahir, A.negara_asal, A.height, A.play_right, A.jenis_kelamin FROM ATLET_NON_KUALIFIKASI AS ANK, ATLET AS A, MEMBER AS M WHERE ANK.id_atlet = A.id AND A.id = M.id"
+    query_non_kualifikasi = f"SELECT M.nama, A.tgl_lahir, A.play_right, A.negara_asal, A.height, A.jenis_kelamin FROM ATLET_NON_KUALIFIKASI AS AK, ATLET AS A, MEMBER AS M WHERE A.id = M.id AND AK.id_atlet = A.id GROUP BY M.nama, A.negara_asal, A.height, A.jenis_kelamin, A.play_right, A.tgl_lahir"
     
     curr.execute(query_non_kualifikasi )
     lst_non_kualifikasi = curr.fetchall()
@@ -130,7 +130,7 @@ def list_atlet(request):
     id_pelatih = request.COOKIES['id']
 
     query = """
-    SELECT A.id, M.email, A.world_rank
+    SELECT M.nama, M.email, A.world_rank
     FROM ATLET AS A, MEMBER AS M, ATLET_PELATIH AS AP
     WHERE AP.id_pelatih = '{id_pelatih}'
     AND AP.id_atlet = A.id
